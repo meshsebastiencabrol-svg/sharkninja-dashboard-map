@@ -347,6 +347,17 @@ function updateMap(){
     mapMarkers.push(marker);
   });
 
+  // Auto-fit map to show all visible markers
+  if(mapMarkers.length===0){
+    gMap.setCenter({lat:-25.5,lng:134});gMap.setZoom(4);
+  } else if(mapMarkers.length===1){
+    gMap.setCenter(mapMarkers[0].getPosition());gMap.setZoom(12);
+  } else {
+    const bounds=new google.maps.LatLngBounds();
+    mapMarkers.forEach(m=>bounds.extend(m.getPosition()));
+    gMap.fitBounds(bounds,{top:40,right:40,bottom:40,left:40});
+  }
+
   // Inactive stores removed — only showing demo-active stores
 }
 
